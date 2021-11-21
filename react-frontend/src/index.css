@@ -2,12 +2,23 @@
 
 body {
     font: 14px 'Century Gothic', Futura, sans-serif;
-    margin: 20px;
+    padding: 0px;
+    padding-top: 2vh;
+    margin: 0px;
+    font-family: PuHuiTi, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+        Helvetica Neue, Arial, Noto Sans, sans-serif, apple color emoji,
+        segoe ui emoji, Segoe UI Symbol, noto color emoji, sans-serif;
+    /* color: #f4ffb8; */
 }
 
 ol,
 ul {
-    padding-left: 30px;
+    padding-top: 1vh;
+    padding-right: 1vw;
+}
+
+li button {
+    color: black;
 }
 
 .board-row:after {
@@ -21,18 +32,19 @@ ul {
 }
 
 .square {
-    background: #fff;
-    border: 1px solid #999;
+    /* color: #5b8c00; */
+    background-color: #f0f0f0;
+    border: 1px solid #262626;
     float: left;
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 34px;
-    height: 34px;
+    font-size: 46px;
+    font-weight: 500;
+    line-height: 76px;
+    width: 76px;
+    height: 76px;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
-    width: 34px;
 }
 
 .square:focus {
@@ -45,9 +57,29 @@ ul {
 
 .game {
     display: flex;
+    flex-direction: column;
+    align-items: center; /* top-bottom*/
+    justify-content: space-between; /* left-right*/
+}
+
+.game-board {
+    padding: 4vh;
+}
+
+.game-records {
+    display: flex;
     flex-direction: row;
+    padding: 4vh;
+    justify-content: space-between;
+    /* background-color: brown; */
 }
 
 .game-info {
+    font-weight: 500;
+    font-size: large;
+    width: 17vw;
     margin-left: 20px;
+    background-color: #f0f0f0;
+    padding: 13px;
+    border-radius: 13px;
 }

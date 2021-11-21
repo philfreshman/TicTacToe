@@ -1,8 +1,12 @@
 import React, { ReactNode, useState } from 'react';
 import ReactDOM from 'react-dom';
 import "./index.css";
-import { Button } from 'antd';
+import { Button, Popconfirm } from 'antd';
 import axios from 'axios';
+import moment from 'moment'
+
+
+
 
 
 
@@ -20,8 +24,6 @@ const Square: React.FC<SquareProps> = props => {
         </button>
     );
 };
-
-
 
 
 interface BoardProps {
@@ -74,33 +76,36 @@ interface Winners{
 
 
 const Game: React.FC = () => {
+
+
     const [xIsNext, setXIsNext] = useState<boolean>(true);
     const [stepNumber, setStepNumber] = useState<number>(0);
     const [gameRound, setGameRound] = useState<number>(1);
     const [gameWinner, setGameWinner] = useState<SquareValue>(null);
-    const [winnerList, setWinnerList] = useState<Winners[]>([]);
+    const [winnerList, setWinnerList] = useState<Winners[]>([
+    ]);
     const [history, setHistory] = useState<{squares: SquareValue[]} []>([
         {
             squares: Array(9).fill(null)
         }
     ]);
 
+    // preloading data from DB
+    axios.get<Winners[]>("http://localhost:1234/api/winners")
+    .then((response)=>{
+        setWinnerList(response.data)
+    });
+
 
     const initNewRound = (): void => {
-        
         axios.post<Winners>("http://localhost:1234/api/winners",{
             winner: gameWinner,
             round: gameRound,
             time: new Date().getTime()
-        }).then((response =>{
-            // setWinnerList(response.data)
-            // console.log("response data: " + response.data)
-        }));
-
+        });
 
         axios.get<Winners[]>("http://localhost:1234/api/winners")
         .then((response)=>{
-            console.log("response data: " + response.data)
             setWinnerList(response.data)
         });
 
@@ -140,8 +145,6 @@ const Game: React.FC = () => {
     };
 
 
-
-
     const current = history[stepNumber];
     const winner = calculateWinner(current.squares);
     const moves = history.map((step, move) => {
@@ -150,34 +153,35 @@ const Game: React.FC = () => {
             'Go to game start';
         return (
             <li key={move}>
-            <button onClick={() => jumpTo(move)}>{desc}</button>
+            <Button type="default" onClick={() => jumpTo(move)}>{desc}</Button >
+            {/* <button onClick={() => jumpTo(move)}>{desc}</button> */}
             </li>
         );
     });
 
 
-
-
     const list = winnerList.map((current, index)=>{
-        let winDate = new Date(current.time).getFullYear();
+        // let winDate = new Date(current.time);
+        // let winDate = moment.unix(current.time).format(""MM / DD / YYYY"");
+        // let unix = current.time;
+        var dateString = moment(current.time).format(" HH:mm -  D/M/Y");  
+
+
         return (
             <li key={index}>
-                {current.winner} = {winDate}
+                <Button type="default">{current.winner} = {dateString}</Button >
+                {/* <button>{current.winner} = {dateString}</button> */}
             </li>
         )
     });
 
 
-
-
     let status;
-
     if (winner) {
         status = "Winner: " + winner;
     } else {
         status = "Next player: " + (xIsNext ? "X" : "O");
     }
-
 
 
     function calculateWinner(squares: SquareValue[]): SquareValue {
@@ -201,23 +205,50 @@ const Game: React.FC = () => {
     };
 
 
+    function cancel():void {
+    return;
+        }
+
+
     return (
+        
         <div className="game">
+        <h1>TicTacToe Game</h1>
+
             <div className="game-board">
             <Board
                 squares={current.squares}
                 onClick={i => handleClick(i)}
             />
             </div>
-            <div className="game-info">
-                <div>{status}</div>
-                <ol>{moves}</ol>
+
+            <Popconfirm
+                title="Are you sure?"
+                onConfirm={() => initNewRound()}
+                onCancel={cancel}
+                okText="Yes"
+                cancelText="No"
+            >
+            <Button type="default">Start new game</Button >
+            </Popconfirm>
+
+            {/* <Button type="default" onClick={() => initNewRound()}> New game ?</Button > */}
+            
+
+            
+            <div className="game-records">
+
+                <div className="game-info">
+                    <div>{status}</div>
+                    <ol>{moves}</ol>
+                </div>
+                <div className="game-info">
+                    <div>Winner list:</div>
+                    <ol>{list}</ol>
+                </div>
+
             </div>
-            <div className="gane-info">
-                <div>Winner list:</div>
-                <ol>{list}</ol>
-            </div>
-            <Button type="primary" onClick={() => initNewRound()}> New game ?</Button >
+
         </div>
     );
 };
