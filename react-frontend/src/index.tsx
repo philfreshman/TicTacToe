@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import "./index.css";
 import { Button, Popconfirm } from 'antd';
 import axios from 'axios';
-import moment from 'moment'
+import moment from 'moment';
 
 
 
@@ -242,7 +242,7 @@ const Game: React.FC = () => {
                     <div>{status}</div>
                     <ol>{moves}</ol>
                 </div>
-                <div className="game-info">
+                <div className="game-info" id="right">
                     <div>Winner list:</div>
                     <ol>{list}</ol>
                 </div>
