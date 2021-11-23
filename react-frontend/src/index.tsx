@@ -90,21 +90,21 @@ const Game: React.FC = () => {
         }
     ]);
 
-    // preloading data from DB
-    axios.get<Winners[]>("http://localhost:1234/api/winners")
-    .then((response)=>{
-        setWinnerList(response.data)
-    });
+     //preloading data from DB
+    //axios.get<Winners[]>("http://localhost:1234/api/gamewinners")
+    //.then((response)=>{
+    //    setWinnerList(response.data)
+    //});
 
 
     const initNewRound = (): void => {
-        axios.post<Winners>("http://localhost:1234/api/winners",{
+        axios.post<Winners>("http://localhost:1234/api/gamewinners",{
             winner: gameWinner,
             round: gameRound,
             time: new Date().getTime()
         });
 
-        axios.get<Winners[]>("http://localhost:1234/api/winners")
+        axios.get<Winners[]>("http://localhost:1234/api/gamewinners")
         .then((response)=>{
             setWinnerList(response.data)
         });

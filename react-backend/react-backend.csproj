@@ -3,6 +3,7 @@
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TypeScriptTarget>ES2021</TypeScriptTarget>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <Configurations>Debug;Release;Front+Back</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

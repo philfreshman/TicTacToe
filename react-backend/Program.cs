@@ -13,8 +13,8 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
            .AllowAnyHeader();
 }));
 
-builder.Services.AddDbContext<WinnerContext>(opt =>
-    opt.UseInMemoryDatabase("WinnerList"));
+builder.Services.AddDbContext<GameWinnerContext>(opt =>
+    opt.UseInMemoryDatabase("GameWinners"));
 
 builder.Services.AddEndpointsApiExplorer();
 
