@@ -16,6 +16,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>react_backend</RootNamespace>
+    <Configurations>Debug;Release;Front+Back</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
