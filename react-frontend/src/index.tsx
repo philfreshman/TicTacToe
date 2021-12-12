@@ -1,68 +1,13 @@
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import "./index.css";
 import { Button, Popconfirm } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 
+import { SquareValue } from './square';
+import { Board } from './board';
+import "./index.css";
 
-
-
-
-
-type SquareValue = 'X' | 'O' | null;
-
-interface SquareProps {
-    onClick(): void;
-    value: SquareValue;
-}
-
-const Square: React.FC<SquareProps> = props => {
-    return (
-        <button className="square" onClick={props.onClick}>
-            {props.value}
-        </button>
-    );
-};
-
-
-interface BoardProps {
-    onClick(i: number): void;
-    squares: SquareValue[];
-}
-
-const Board: React.FC<BoardProps> = props => {
-
-    const renderSquare = (i: number): ReactNode => {
-        return (
-            <Square
-            value={props.squares[i]}
-            onClick={() => props.onClick(i)}
-            />
-        );
-    };
-
-
-    return (
-    <div>
-        <div className="board-row">
-        {renderSquare(0)}
-        {renderSquare(1)}
-        {renderSquare(2)}
-            </div>
-        <div className="board-row">
-        {renderSquare(3)}
-        {renderSquare(4)}
-        {renderSquare(5)}
-        </div>
-        <div className="board-row">
-        {renderSquare(6)}
-        {renderSquare(7)}
-        {renderSquare(8)}
-        </div>
-    </div>
-    );
-};
 
 
 interface Winners{
@@ -71,13 +16,7 @@ interface Winners{
     time: number;
 }
 
-
-
-
-
 const Game: React.FC = () => {
-
-
     const [xIsNext, setXIsNext] = useState<boolean>(true);
     const [stepNumber, setStepNumber] = useState<number>(0);
     const [gameRound, setGameRound] = useState<number>(1);
@@ -89,12 +28,6 @@ const Game: React.FC = () => {
             squares: Array(9).fill(null)
         }
     ]);
-
-     //preloading data from DB
-    //axios.get<Winners[]>("http://localhost:1234/api/gamewinners")
-    //.then((response)=>{
-    //    setWinnerList(response.data)
-    //});
 
 
     const initNewRound = (): void => {
@@ -120,7 +53,6 @@ const Game: React.FC = () => {
     }
 
 
-    
     const handleClick = (i: number): void => {
         const newHistory = history.slice(0, stepNumber + 1);
         const current = newHistory[newHistory.length - 1];
@@ -144,7 +76,6 @@ const Game: React.FC = () => {
         setXIsNext((step % 2) === 0)
     };
 
-
     const current = history[stepNumber];
     const winner = calculateWinner(current.squares);
     const moves = history.map((step, move) => {
@@ -159,18 +90,12 @@ const Game: React.FC = () => {
         );
     });
 
-
     const list = winnerList.map((current, index)=>{
-        // let winDate = new Date(current.time);
-        // let winDate = moment.unix(current.time).format(""MM / DD / YYYY"");
-        // let unix = current.time;
         var dateString = moment(current.time).format(" HH:mm -  D/M/Y");  
-
 
         return (
             <li key={index}>
                 <Button type="default">{current.winner} = {dateString}</Button >
-                {/* <button>{current.winner} = {dateString}</button> */}
             </li>
         )
     });
@@ -232,10 +157,6 @@ const Game: React.FC = () => {
             <Button type="default">Start new game</Button >
             </Popconfirm>
 
-            {/* <Button type="default" onClick={() => initNewRound()}> New game ?</Button > */}
-            
-
-            
             <div className="game-records">
 
                 <div className="game-info">
