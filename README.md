@@ -1,5 +1,13 @@
-# TicTacToe Game
 
-Before running project navigate in console to **react-frontend/** directory and run command:
-- npm install
+## TicTacToe Game
 
+This is a small project witch represents my current programming experience and knowledge.
+
+Frontend:
+* React + Typescript
+
+
+Backend:
+* .NET 6, Entity Framework, 
+*  Entity Framework
+* In-memory DataBase
